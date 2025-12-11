@@ -18,12 +18,10 @@ export async function GET(request: NextRequest) {
     await requireRole(user, ['admin']);
 
     // Get system-level config (scope = 'system', scopeId = null)
-    let config = await prisma.voiceConfig.findUnique({
+    let config = await prisma.voiceConfig.findFirst({
       where: {
-        scope_scopeId: {
-          scope: 'system',
-          scopeId: null,
-        },
+        scope: 'system',
+        scopeId: null,
       },
     });
 
@@ -67,33 +65,39 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     const validated = voiceConfigSchema.parse(body);
 
-    // Upsert system-level config
-    const config = await prisma.voiceConfig.upsert({
+    // Find existing config
+    const existing = await prisma.voiceConfig.findFirst({
       where: {
-        scope_scopeId: {
-          scope: 'system',
-          scopeId: null,
-        },
-      },
-      update: {
-        ttsProvider: validated.ttsProvider,
-        ttsModel: validated.ttsModel || null,
-        ttsVoice: validated.ttsVoice || null,
-        sttProvider: validated.sttProvider,
-        sttModel: validated.sttModel || null,
-        qualityTier: validated.qualityTier,
-      },
-      create: {
         scope: 'system',
         scopeId: null,
-        ttsProvider: validated.ttsProvider,
-        ttsModel: validated.ttsModel || null,
-        ttsVoice: validated.ttsVoice || null,
-        sttProvider: validated.sttProvider,
-        sttModel: validated.sttModel || null,
-        qualityTier: validated.qualityTier,
       },
     });
+
+    // Upsert system-level config
+    const config = existing
+      ? await prisma.voiceConfig.update({
+          where: { id: existing.id },
+          data: {
+            ttsProvider: validated.ttsProvider,
+            ttsModel: validated.ttsModel || null,
+            ttsVoice: validated.ttsVoice || null,
+            sttProvider: validated.sttProvider,
+            sttModel: validated.sttModel || null,
+            qualityTier: validated.qualityTier,
+          },
+        })
+      : await prisma.voiceConfig.create({
+          data: {
+            scope: 'system',
+            scopeId: null,
+            ttsProvider: validated.ttsProvider,
+            ttsModel: validated.ttsModel || null,
+            ttsVoice: validated.ttsVoice || null,
+            sttProvider: validated.sttProvider,
+            sttModel: validated.sttModel || null,
+            qualityTier: validated.qualityTier,
+          },
+        });
 
     return NextResponse.json(config);
   } catch (error) {

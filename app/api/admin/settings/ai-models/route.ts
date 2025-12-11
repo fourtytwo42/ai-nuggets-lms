@@ -20,12 +20,10 @@ export async function GET(request: NextRequest) {
     await requireRole(user, ['admin']);
 
     // Get system-level config (scope = 'system', scopeId = null)
-    let config = await prisma.aIModelConfig.findUnique({
+    let config = await prisma.aIModelConfig.findFirst({
       where: {
-        scope_scopeId: {
-          scope: 'system',
-          scopeId: null,
-        },
+        scope: 'system',
+        scopeId: null,
       },
     });
 
@@ -71,37 +69,43 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     const validated = aiModelConfigSchema.parse(body);
 
-    // Upsert system-level config
-    const config = await prisma.aIModelConfig.upsert({
+    // Find existing config
+    const existing = await prisma.aIModelConfig.findFirst({
       where: {
-        scope_scopeId: {
-          scope: 'system',
-          scopeId: null,
-        },
-      },
-      update: {
-        contentGenerationModel: validated.contentGenerationModel,
-        narrativePlanningModel: validated.narrativePlanningModel,
-        tutoringModel: validated.tutoringModel,
-        metadataModel: validated.metadataModel,
-        embeddingModel: validated.embeddingModel,
-        contentGenerationTemp: validated.contentGenerationTemp,
-        narrativePlanningTemp: validated.narrativePlanningTemp,
-        tutoringTemp: validated.tutoringTemp,
-      },
-      create: {
         scope: 'system',
         scopeId: null,
-        contentGenerationModel: validated.contentGenerationModel,
-        narrativePlanningModel: validated.narrativePlanningModel,
-        tutoringModel: validated.tutoringModel,
-        metadataModel: validated.metadataModel,
-        embeddingModel: validated.embeddingModel,
-        contentGenerationTemp: validated.contentGenerationTemp,
-        narrativePlanningTemp: validated.narrativePlanningTemp,
-        tutoringTemp: validated.tutoringTemp,
       },
     });
+
+    // Upsert system-level config
+    const config = existing
+      ? await prisma.aIModelConfig.update({
+          where: { id: existing.id },
+          data: {
+            contentGenerationModel: validated.contentGenerationModel,
+            narrativePlanningModel: validated.narrativePlanningModel,
+            tutoringModel: validated.tutoringModel,
+            metadataModel: validated.metadataModel,
+            embeddingModel: validated.embeddingModel,
+            contentGenerationTemp: validated.contentGenerationTemp,
+            narrativePlanningTemp: validated.narrativePlanningTemp,
+            tutoringTemp: validated.tutoringTemp,
+          },
+        })
+      : await prisma.aIModelConfig.create({
+          data: {
+            scope: 'system',
+            scopeId: null,
+            contentGenerationModel: validated.contentGenerationModel,
+            narrativePlanningModel: validated.narrativePlanningModel,
+            tutoringModel: validated.tutoringModel,
+            metadataModel: validated.metadataModel,
+            embeddingModel: validated.embeddingModel,
+            contentGenerationTemp: validated.contentGenerationTemp,
+            narrativePlanningTemp: validated.narrativePlanningTemp,
+            tutoringTemp: validated.tutoringTemp,
+          },
+        });
 
     return NextResponse.json(config);
   } catch (error) {

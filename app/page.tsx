@@ -12,16 +12,16 @@ export default function SplashPage() {
         </p>
         <div className="flex gap-4 justify-center">
           <Link
-            href="/dashboard"
+            href="/login"
             className="bg-white text-black px-6 py-3 rounded-md font-medium hover:bg-gray-200 transition-colors"
           >
-            Dashboard
+            Sign In
           </Link>
           <Link
-            href="/learning"
+            href="/register"
             className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-medium hover:bg-white hover:text-black transition-colors"
           >
-            Start Learning
+            Get Started
           </Link>
         </div>
       </div>

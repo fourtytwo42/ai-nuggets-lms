@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { ReactNode, useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { getUser, clearAuth, isAuthenticated } from '@/src/lib/auth/client';
+import { getUser, clearAuth, isAuthenticated, getToken } from '@/src/lib/auth/client';
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const router = useRouter();

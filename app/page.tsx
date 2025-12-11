@@ -1,15 +1,9 @@
-export default function Home() {
+export default function SplashPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm">
-        <h1 className="text-4xl font-bold text-center mb-8">
-          AI Microlearning LMS
-        </h1>
-        <p className="text-center text-lg">
-          Zero-human-authoring adaptive microlearning platform
-        </p>
-      </div>
-    </main>
+    <div className="fixed inset-0 bg-black flex items-center justify-center">
+      <h1 className="text-white text-6xl font-bold tracking-wide">
+        AI Microlearning LMS
+      </h1>
+    </div>
   );
 }
-

@@ -173,7 +173,42 @@ npm run db:seed:safe
 ```
 
 This creates:
-- 1 test organization
-- 1 admin user
-- 2 learner users with profiles
+- 1 test organization ("Test Organization")
+- 1 admin user (`admin@test.com` / `admin123`)
+- 2 learner users with profiles:
+  - `learner@test.com` / `learner123`
+  - `user@test.com` / `user123`
+
+## Frontend Pages
+
+### Login Page (`/login`)
+
+- Email and password input
+- Link to registration
+- Error message display
+- Redirects to dashboard on success
+
+### Register Page (`/register`)
+
+- Full name input
+- Email input
+- Password input (min 8 characters)
+- Optional organization name
+- Link to login
+- Creates organization if new
+- Automatically creates learner profile
+
+### Protected Routes
+
+All routes under `/(app)/*` require authentication:
+- `/dashboard` - User dashboard
+- `/learning` - Learning interface
+- `/admin/*` - Admin interface (requires admin role)
+- `/profile` - User profile
+
+### Splash Page (`/`)
+
+- Landing page with project branding
+- Links to login and registration
+- No authentication required
 

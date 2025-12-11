@@ -9,6 +9,10 @@ Zero-human-authoring adaptive microlearning platform that transforms raw content
 - **AI Tutoring:** Conversational AI with organic assessment
 - **Multimedia Rich:** AI-generated images and audio for each learning nugget
 - **Semantic Search:** Vector-based content discovery using pgvector
+- **File Upload & Management:** Direct file upload with automatic processing
+- **Content Ingestion:** Watch folders and monitor URLs for automatic content ingestion
+- **Admin Console:** Comprehensive admin interface for system management
+- **Authentication System:** JWT-based auth with role-based access control
 
 ## Tech Stack
 
@@ -61,10 +65,22 @@ npm run db:migrate
 npm run db:generate
 ```
 
-6. Start development server:
+6. Seed test accounts:
+```bash
+npm run db:seed
+```
+
+7. Start development server:
 ```bash
 npm run dev
 ```
+
+### Test Accounts
+
+After seeding, you can log in with:
+- **Admin:** `admin@test.com` / `admin123`
+- **Learner:** `learner@test.com` / `learner123`
+- **User:** `user@test.com` / `user123`
 
 ## Development
 
@@ -100,17 +116,38 @@ npm run format
 ai-nuggets-lms/
 ├── app/                    # Next.js App Router
 │   ├── api/               # API routes
-│   └── (auth)/            # Auth routes
+│   │   ├── auth/          # Authentication endpoints
+│   │   └── admin/         # Admin API endpoints
+│   │       ├── files/     # File management
+│   │       ├── ingestion/ # Content ingestion
+│   │       └── settings/  # System settings
+│   ├── (app)/             # Protected app routes
+│   │   ├── admin/         # Admin interface
+│   │   │   ├── files/     # File management page
+│   │   │   ├── ingestion/ # Content ingestion page
+│   │   │   ├── settings/  # Settings page
+│   │   │   └── nuggets/   # Nugget management
+│   │   ├── dashboard/     # User dashboard
+│   │   └── learning/      # Learning interface
+│   ├── login/             # Login page
+│   └── register/          # Registration page
 ├── src/
 │   ├── lib/               # Utilities and helpers
-│   │   ├── auth/          # Authentication
+│   │   ├── auth/          # Authentication (JWT, password, middleware)
 │   │   ├── db/            # Database utilities
-│   │   └── errors.ts      # Error handling
+│   │   ├── ai/            # AI integrations (embeddings)
+│   │   ├── errors.ts      # Error handling
+│   │   └── logger.ts      # Logging
 │   ├── services/          # Business logic services
-│   └── components/        # React components
+│   │   ├── content-ingestion/ # Content processing
+│   │   ├── jobs/          # Job queue definitions
+│   │   └── learning-delivery/ # Learning services (future)
+│   └── workers/           # Background workers
 ├── prisma/                # Database schema and migrations
 ├── tests/                 # Test files
-└── storage/               # File storage
+├── storage/               # File storage
+│   └── uploads/          # Uploaded files
+└── docs/                  # Project documentation
 ```
 
 ## License

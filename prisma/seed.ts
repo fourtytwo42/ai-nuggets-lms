@@ -7,14 +7,18 @@ async function main() {
   console.log('Seeding database...');
 
   // Create test organization
-  const org = await prisma.organization.upsert({
+  let org = await prisma.organization.findUnique({
     where: { id: 'test-org-1' },
-    update: {},
-    create: {
-      id: 'test-org-1',
-      name: 'Test Organization',
-    },
   });
+
+  if (!org) {
+    org = await prisma.organization.create({
+      data: {
+        id: 'test-org-1',
+        name: 'Test Organization',
+      },
+    });
+  }
 
   // Create admin user
   const adminPassword = await hashPassword('admin123');
@@ -138,4 +142,3 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
-

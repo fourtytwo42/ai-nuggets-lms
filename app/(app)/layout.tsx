@@ -24,12 +24,15 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/auth/logout', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${getUser()?.token || ''}`,
-        },
-      });
+      const token = getToken();
+      if (token) {
+        await fetch('/api/auth/logout', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
     } catch {
       // Ignore errors
     }

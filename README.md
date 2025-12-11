@@ -34,23 +34,27 @@ Zero-human-authoring adaptive microlearning platform that transforms raw content
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/fourtytwo42/ai-nuggets-lms.git
 cd ai-nuggets-lms
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Set up environment variables:
+
 ```bash
 cp .env.example .env
 # Edit .env with your configuration
 ```
 
 4. Set up the database:
+
 ```bash
 # Create database and enable pgvector
 createdb ai_microlearning_lms
@@ -61,16 +65,19 @@ npm run db:migrate
 ```
 
 5. Generate Prisma Client:
+
 ```bash
 npm run db:generate
 ```
 
 6. Seed test accounts:
+
 ```bash
 npm run db:seed
 ```
 
 7. Start development server:
+
 ```bash
 npm run dev
 ```
@@ -78,9 +85,42 @@ npm run dev
 ### Test Accounts
 
 After seeding, you can log in with:
+
 - **Admin:** `admin@test.com` / `admin123`
 - **Learner:** `learner@test.com` / `learner123`
 - **User:** `user@test.com` / `user123`
+
+## Documentation
+
+Comprehensive documentation is available in the [`/docs`](docs/) folder:
+
+### Getting Started
+
+- [Quick Start Guide](docs/QUICK_START.md) - Get up and running in minutes
+- [Installation Guide](docs/INSTALLATION.md) - Detailed setup instructions
+- [Architecture Overview](docs/ARCHITECTURE.md) - System design and components
+
+### Core Features
+
+- [Authentication System](docs/AUTHENTICATION.md) - User authentication and authorization
+- [Content Ingestion](docs/CONTENT_INGESTION.md) - How content is processed
+- [File Management](docs/FILE_MANAGEMENT.md) - File upload and management system
+- [Admin Interface](docs/ADMIN_INTERFACE.md) - Admin console features
+- [AI Integration](docs/AI_INTEGRATION.md) - OpenAI and AI services integration
+
+### Development & Deployment
+
+- [API Reference](docs/API_REFERENCE.md) - Complete API documentation
+- [Database Schema](docs/DATABASE_SCHEMA.md) - Database structure and models
+- [Testing Guide](docs/TESTING.md) - Testing strategy and examples
+- [Deployment Guide](docs/DEPLOYMENT.md) - Production deployment instructions
+
+### Status & Progress
+
+- [Implementation Status](docs/IMPLEMENTATION_STATUS.md) - Current project status
+- [Phase 2 Status](docs/PHASE2_STATUS.md) - Content ingestion phase details
+
+**📚 [View All Documentation](docs/README.md)** - Complete documentation index
 
 ## Development
 
@@ -148,9 +188,14 @@ ai-nuggets-lms/
 ├── storage/               # File storage
 │   └── uploads/          # Uploaded files
 └── docs/                  # Project documentation
+    ├── README.md         # Documentation index
+    ├── QUICK_START.md    # Quick start guide
+    ├── INSTALLATION.md   # Installation guide
+    ├── ARCHITECTURE.md   # Architecture overview
+    ├── API_REFERENCE.md  # API documentation
+    └── ...               # See docs/README.md for full list
 ```
 
 ## License
 
 MIT
-

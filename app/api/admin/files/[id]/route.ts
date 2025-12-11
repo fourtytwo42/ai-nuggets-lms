@@ -3,7 +3,6 @@ import { authenticate, requireRole } from '@/src/lib/auth/middleware';
 import { prisma } from '@/src/lib/db/prisma';
 import { unlink } from 'fs/promises';
 import { readFile } from 'fs/promises';
-import { join } from 'path';
 
 // File serving endpoint
 

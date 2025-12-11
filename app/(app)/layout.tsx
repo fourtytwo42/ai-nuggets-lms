@@ -8,7 +8,7 @@ import { getUser, clearAuth, isAuthenticated } from '@/src/lib/auth/client';
 export default function AppLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{ name: string; role: string } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           Authorization: `Bearer ${getUser()?.token || ''}`,
         },
       });
-    } catch (error) {
+    } catch {
       // Ignore errors
     }
     clearAuth();

@@ -85,7 +85,7 @@ export class ContentProcessor {
             data: {
               organizationId: job.organizationId,
               content: chunk.text,
-              metadata: metadata as Record<string, unknown>,
+              metadata: metadata as Prisma.InputJsonValue,
               status: 'ready',
             },
           });

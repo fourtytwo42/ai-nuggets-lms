@@ -115,10 +115,18 @@ export default function FilesPage() {
     }
   };
 
-  const handlePreview = (id: string) => {
-    const token = localStorage.getItem('token');
-    const previewUrl = `/api/admin/files/${id}?token=${token}`;
-    setPreviewFile(previewUrl);
+  const handlePreview = async (id: string) => {
+    try {
+      const response = await fetchWithAuth(`/api/admin/files/${id}`);
+      if (!response.ok) {
+        throw new Error('Failed to load file');
+      }
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      setPreviewFile(url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to preview file');
+    }
   };
 
   const formatFileSize = (bytes: number) => {
@@ -295,11 +303,13 @@ export default function FilesPage() {
                 </button>
               </div>
               <div className="flex-1 overflow-auto p-4">
-                <iframe
-                  src={previewFile}
-                  className="w-full h-full min-h-[500px] border-0"
-                  title="File Preview"
-                />
+                {previewFile && (
+                  <iframe
+                    src={previewFile}
+                    className="w-full h-full min-h-[500px] border-0"
+                    title="File Preview"
+                  />
+                )}
               </div>
             </div>
           </div>

@@ -5,8 +5,7 @@ import { unlink } from 'fs/promises';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 
-const STORAGE_PATH = process.env.STORAGE_PATH || './storage';
-const UPLOADS_DIR = join(STORAGE_PATH, 'uploads');
+// File serving endpoint
 
 export async function GET(
   request: NextRequest,
@@ -29,7 +28,7 @@ export async function GET(
     try {
       const fileBuffer = await readFile(job.source);
       const filename = job.source.split('/').pop() || 'file';
-      const metadata = job.metadata as any;
+      const metadata = job.metadata as { fileName?: string; fileType?: string } | null;
       const contentType =
         metadata?.fileType === 'pdf'
           ? 'application/pdf'

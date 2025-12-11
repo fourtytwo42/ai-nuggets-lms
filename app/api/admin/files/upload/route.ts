@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate file type
-    const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
     const fileExtension = file.name.split('.').pop()?.toLowerCase();
     const allowedExtensions = ['pdf', 'docx', 'txt'];
 

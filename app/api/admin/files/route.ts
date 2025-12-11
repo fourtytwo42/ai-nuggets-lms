@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { authenticate, requireRole } from '@/src/lib/auth/middleware';
 import { prisma } from '@/src/lib/db/prisma';
-import { readdir, stat } from 'fs/promises';
+import { stat } from 'fs/promises';
 import { join } from 'path';
 
 const STORAGE_PATH = process.env.STORAGE_PATH || './storage';
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
     // Get file info from filesystem
     const files = await Promise.all(
       jobs.map(async (job) => {
-        const metadata = job.metadata as any;
+        const metadata = job.metadata as { fileName?: string; fileSize?: number; fileType?: string } | null;
         let fileStats = null;
 
         try {

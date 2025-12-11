@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { TextExtractor } from './extraction';
 import { SemanticChunker } from './chunking';
 import { generateEmbedding, storeEmbedding } from '@/src/lib/ai/embeddings';

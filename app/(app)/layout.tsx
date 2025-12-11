@@ -86,16 +86,28 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                   Learning
                 </Link>
                 {user.role === 'admin' && (
-                  <Link
-                    href="/admin"
-                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 ${
-                      pathname?.startsWith('/admin')
-                        ? 'text-gray-900 border-blue-600'
-                        : 'text-gray-500 border-transparent hover:text-gray-900 hover:border-gray-300'
-                    }`}
-                  >
-                    Admin
-                  </Link>
+                  <>
+                    <Link
+                      href="/admin"
+                      className={`inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 ${
+                        pathname?.startsWith('/admin') && !pathname?.startsWith('/admin/files')
+                          ? 'text-gray-900 border-blue-600'
+                          : 'text-gray-500 border-transparent hover:text-gray-900 hover:border-gray-300'
+                      }`}
+                    >
+                      Admin
+                    </Link>
+                    <Link
+                      href="/admin/files"
+                      className={`inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 ${
+                        pathname === '/admin/files'
+                          ? 'text-gray-900 border-blue-600'
+                          : 'text-gray-500 border-transparent hover:text-gray-900 hover:border-gray-300'
+                      }`}
+                    >
+                      Files
+                    </Link>
+                  </>
                 )}
               </div>
             </div>

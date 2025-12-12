@@ -4,12 +4,43 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+// Demo accounts from seed script
+const DEMO_ACCOUNTS = [
+  {
+    email: 'admin@test.com',
+    password: 'admin123',
+    name: 'Admin User',
+    role: 'Admin',
+    description: 'Full system access',
+  },
+  {
+    email: 'learner@test.com',
+    password: 'learner123',
+    name: 'Test Learner',
+    role: 'Learner',
+    description: 'Learning platform access',
+  },
+  {
+    email: 'user@test.com',
+    password: 'user123',
+    name: 'John Doe',
+    role: 'Learner',
+    description: 'Learning platform access',
+  },
+];
+
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const handleDemoAccountClick = (accountEmail: string, accountPassword: string) => {
+    setEmail(accountEmail);
+    setPassword(accountPassword);
+    setError(''); // Clear any previous errors
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,6 +96,57 @@ export default function LoginPage() {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        {/* Demo Accounts Section */}
+        <div className="mb-6 bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+          <p className="text-center text-sm font-semibold text-gray-900 mb-4">
+            🎯 Demo Accounts
+          </p>
+          <p className="text-center text-xs text-gray-600 mb-4">
+            Click any account to auto-fill credentials
+          </p>
+          <div className="space-y-2">
+            {DEMO_ACCOUNTS.map((account) => (
+              <button
+                key={account.email}
+                type="button"
+                onClick={() => handleDemoAccountClick(account.email, account.password)}
+                className="w-full text-left bg-gray-50 border-2 border-gray-300 rounded-lg p-3 hover:border-blue-500 hover:bg-blue-50 hover:shadow-md transition-all cursor-pointer active:scale-[0.98]"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <div className="font-semibold text-gray-900">{account.name}</div>
+                    <div className="text-xs text-gray-600 mt-0.5">
+                      {account.email}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-xs px-2 py-1 rounded font-medium ${
+                      account.role === 'Admin' 
+                        ? 'bg-purple-100 text-purple-700' 
+                        : 'bg-green-100 text-green-700'
+                    }`}>
+                      {account.role}
+                    </span>
+                    <svg
+                      className="w-5 h-5 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
